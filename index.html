@@ -2,145 +2,122 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>PinkLuck Casino</title>
+<title>PinkLuck • Tigre da Sorte</title>
 
 <style>
-body {
+body{
   margin:0;
-  background:#000;
-  font-family: Arial, sans-serif;
-  color:white;
-}
-
-header {
-  text-align:center;
-  padding:20px;
-  background:#111;
-  border-bottom:2px solid hotpink;
-}
-
-h1 {
-  color:hotpink;
-}
-
-.coins {
-  font-size:18px;
-  margin-top:5px;
-}
-
-.games {
+  background:linear-gradient(#8b0000,#000);
+  font-family:Arial;
+  color:#fff;
   display:flex;
   justify-content:center;
-  gap:30px;
-  margin-top:40px;
-  flex-wrap:wrap;
+  align-items:center;
+  height:100vh;
 }
 
-.game {
-  background:#111;
-  border:2px solid hotpink;
-  border-radius:20px;
-  padding:20px;
-  width:250px;
+.slot-box{
+  background:#b30000;
+  border:4px solid gold;
+  border-radius:25px;
+  width:360px;
+  padding:15px;
+  box-shadow:0 0 30px gold;
+}
+
+.header{
   text-align:center;
-  box-shadow:0 0 20px rgba(255,105,180,0.4);
 }
-
-.slot {
-  font-size:50px;
-  margin:20px 0;
+.header h1{
+  margin:5px 0;
+  color:gold;
 }
-
-button {
-  background:hotpink;
-  border:none;
-  color:white;
-  padding:10px 20px;
-  border-radius:10px;
+.coins{
   font-size:16px;
-  cursor:pointer;
 }
 
-.msg {
+.reels{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:15px 0;
+}
+
+.reel{
+  background:#fff;
+  color:#000;
+  width:70px;
+  height:70px;
+  font-size:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:15px;
+  border:3px solid gold;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  font-size:18px;
+  background:gold;
+  border:none;
+  border-radius:15px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.msg{
+  text-align:center;
   margin-top:10px;
+  min-height:24px;
+}
+.footer{
+  text-align:center;
+  font-size:12px;
+  opacity:.8;
+  margin-top:8px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>🎰 PinkLuck Casino</h1>
-  <div class="coins" id="coins">💰 VCoins: 1000</div>
-</header>
-
-<div class="games">
-
-  <!-- TIGRE -->
-  <div class="game">
-    <h2>🐯 Slot do Tigre</h2>
-    <div class="slot" id="tigerSlot">🐯 🐯 🐯</div>
-    <button onclick="playTiger()">Girar</button>
-    <div class="msg" id="tigerMsg"></div>
+<div class="slot-box">
+  <div class="header">
+    <h1>🐯 Tigre da Sorte</h1>
+    <div class="coins" id="coins">💰 VCoins: 1000</div>
   </div>
 
-  <!-- TOURO -->
-  <div class="game">
-    <h2>🐂 Slot do Touro</h2>
-    <div class="slot" id="bullSlot">🐂 🐂 🐂</div>
-    <button onclick="playBull()">Girar</button>
-    <div class="msg" id="bullMsg"></div>
+  <div class="reels">
+    <div class="reel" id="r1">🧧</div>
+    <div class="reel" id="r2">🐯</div>
+    <div class="reel" id="r3">💰</div>
   </div>
 
+  <button onclick="spin()">GIRAR • 50</button>
+
+  <div class="msg" id="msg"></div>
+  <div class="footer">Modo social • sem dinheiro real</div>
 </div>
 
 <script>
-let coins = 1000;
-const symbolsTiger = ["🐯","🍀","💎"];
-const symbolsBull = ["🐂","🔥","💰"];
+let coins=1000;
+const symbols=["🐯","💰","🧧","🍊","💎"];
 
-function updateCoins() {
-  document.getElementById("coins").innerText = "💰 VCoins: " + coins;
+function update(){
+  document.getElementById("coins").innerText="💰 VCoins: "+coins;
 }
 
-function playTiger() {
-  if (coins < 50) return alert("Sem VCoins!");
-  coins -= 50;
+function spin(){
+  if(coins<50){alert("Sem moedas");return;}
+  coins-=50;
+  update();
+  msg.innerText="Girando...";
 
-  let a = symbolsTiger[Math.floor(Math.random()*3)];
-  let b = symbolsTiger[Math.floor(Math.random()*3)];
-  let c = symbolsTiger[Math.floor(Math.random()*3)];
+  let t=0;
+  const anim=setInterval(()=>{
+    r1.innerText=symbols[Math.floor(Math.random()*symbols.length)];
+    r2.innerText=symbols[Math.floor(Math.random()*symbols.length)];
+    r3.innerText=symbols[Math.fl]()
 
-  document.getElementById("tigerSlot").innerText = a+" "+b+" "+c;
-
-  if (a===b && b===c) {
-    coins += 300;
-    tigerMsg.innerText = "🎉 TIGRE PAGOU +300!";
-  } else {
-    tigerMsg.innerText = "😅 Tente novamente";
-  }
-  updateCoins();
-}
-
-function playBull() {
-  if (coins < 50) return alert("Sem VCoins!");
-  coins -= 50;
-
-  let a = symbolsBull[Math.floor(Math.random()*3)];
-  let b = symbolsBull[Math.floor(Math.random()*3)];
-  let c = symbolsBull[Math.floor(Math.random()*3)];
-
-  document.getElementById("bullSlot").innerText = a+" "+b+" "+c;
-
-  if (a===b && b===c) {
-    coins += 300;
-    bullMsg.innerText = "🔥 TOURO PAGOU +300!";
-  } else {
-    bullMsg.innerText = "😅 Quase!";
-  }
-  updateCoins();
-}
-</script>
-
-</body>
-</html>
