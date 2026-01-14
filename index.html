@@ -1,65 +1,146 @@
-index.html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>PinkLuck</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .card {
-      background: #111;
-      border: 2px solid #ff2f92;
-      border-radius: 20px;
-      padding: 30px;
-      text-align: center;
-      width: 320px;
-      box-shadow: 0 0 20px rgba(255,47,146,0.4);
-    }
-    h1 {
-      color: #ff2f92;
-    }
-    button {
-      background: #ff2f92;
-      border: none;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 12px;
-      cursor: pointer;
-      margin-top: 15px;
-      font-size: 16px;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>PinkLuck Casino</title>
+
+<style>
+body {
+  margin:0;
+  background:#000;
+  font-family: Arial, sans-serif;
+  color:white;
+}
+
+header {
+  text-align:center;
+  padding:20px;
+  background:#111;
+  border-bottom:2px solid hotpink;
+}
+
+h1 {
+  color:hotpink;
+}
+
+.coins {
+  font-size:18px;
+  margin-top:5px;
+}
+
+.games {
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  margin-top:40px;
+  flex-wrap:wrap;
+}
+
+.game {
+  background:#111;
+  border:2px solid hotpink;
+  border-radius:20px;
+  padding:20px;
+  width:250px;
+  text-align:center;
+  box-shadow:0 0 20px rgba(255,105,180,0.4);
+}
+
+.slot {
+  font-size:50px;
+  margin:20px 0;
+}
+
+button {
+  background:hotpink;
+  border:none;
+  color:white;
+  padding:10px 20px;
+  border-radius:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.msg {
+  margin-top:10px;
+}
+</style>
 </head>
+
 <body>
-  <div class="card">
-    <h1>🎰 PinkLuck</h1>
-    <p>Cassino social • Sem dinheiro real</p>
-    <p id="coins">💰 VCoins: 1000</p>
-    <button onclick="spin()">Girar Slot</button>
-    <p id="msg"></p>
+
+<header>
+  <h1>🎰 PinkLuck Casino</h1>
+  <div class="coins" id="coins">💰 VCoins: 1000</div>
+</header>
+
+<div class="games">
+
+  <!-- TIGRE -->
+  <div class="game">
+    <h2>🐯 Slot do Tigre</h2>
+    <div class="slot" id="tigerSlot">🐯 🐯 🐯</div>
+    <button onclick="playTiger()">Girar</button>
+    <div class="msg" id="tigerMsg"></div>
   </div>
 
-  <script>
-    let coins = 1000;
-    function spin() {
-      if (Math.random() > 0.6) {
-        coins += 200;
-        msg.innerText = '🎉 Você ganhou 200 VCoins!';
-      } else {
-        coins -= 100;
-        msg.innerText = '😅 Quase! Tente novamente.';
-      }
-      document.getElementById('coins').innerText = '💰 VCoins: ' + coins;
-    }
-  </script>
+  <!-- TOURO -->
+  <div class="game">
+    <h2>🐂 Slot do Touro</h2>
+    <div class="slot" id="bullSlot">🐂 🐂 🐂</div>
+    <button onclick="playBull()">Girar</button>
+    <div class="msg" id="bullMsg"></div>
+  </div>
+
+</div>
+
+<script>
+let coins = 1000;
+const symbolsTiger = ["🐯","🍀","💎"];
+const symbolsBull = ["🐂","🔥","💰"];
+
+function updateCoins() {
+  document.getElementById("coins").innerText = "💰 VCoins: " + coins;
+}
+
+function playTiger() {
+  if (coins < 50) return alert("Sem VCoins!");
+  coins -= 50;
+
+  let a = symbolsTiger[Math.floor(Math.random()*3)];
+  let b = symbolsTiger[Math.floor(Math.random()*3)];
+  let c = symbolsTiger[Math.floor(Math.random()*3)];
+
+  document.getElementById("tigerSlot").innerText = a+" "+b+" "+c;
+
+  if (a===b && b===c) {
+    coins += 300;
+    tigerMsg.innerText = "🎉 TIGRE PAGOU +300!";
+  } else {
+    tigerMsg.innerText = "😅 Tente novamente";
+  }
+  updateCoins();
+}
+
+function playBull() {
+  if (coins < 50) return alert("Sem VCoins!");
+  coins -= 50;
+
+  let a = symbolsBull[Math.floor(Math.random()*3)];
+  let b = symbolsBull[Math.floor(Math.random()*3)];
+  let c = symbolsBull[Math.floor(Math.random()*3)];
+
+  document.getElementById("bullSlot").innerText = a+" "+b+" "+c;
+
+  if (a===b && b===c) {
+    coins += 300;
+    bullMsg.innerText = "🔥 TOURO PAGOU +300!";
+  } else {
+    bullMsg.innerText = "😅 Quase!";
+  }
+  updateCoins();
+}
+</script>
+
 </body>
 </html>
